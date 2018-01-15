@@ -4,8 +4,7 @@ module.exports = () => {
 	var _ = require('underscore');
 	var app = express();
 
-	var port = Number(process.env.PORT || 5000),
-		host = process.env.HOST,
+	var host = process.env.HOST,
 		appFolder = process.env.APP_FOLDER,
 		GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID,
 		GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET,
@@ -98,6 +97,6 @@ module.exports = () => {
 	// --- Server Listening ---
 
 	app.listen(port, function () {
-		console.log('Listening on ' + port);
+		console.log('Listening on ' + global.port);
 	});
 }

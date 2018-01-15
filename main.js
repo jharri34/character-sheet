@@ -8,6 +8,8 @@ const BrowserWindow = electron.BrowserWindow
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
+global.port = 5666;
+
 app.on('ready', function() {
   app.server = require(path.join(__dirname, '/app/web.js'))();
   mainWindow = new BrowserWindow({
@@ -17,7 +19,7 @@ app.on('ready', function() {
     useContentSize: true,
     resizable: true,
   });
-  mainWindow.loadURL('http://localhost:5000');
+  mainWindow.loadURL('http://localhost:' + global.port);
   mainWindow.focus();
 
 });
