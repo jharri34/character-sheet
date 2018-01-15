@@ -25,10 +25,6 @@ angular.module('sheetApp', [
 				templateUrl: 'views/statblock.html',
 				controller: 'StatBlockCtrl'
 			})
-			.when('/login', {
-				templateUrl: 'views/login.html',
-				controller: 'LoginCtrl'
-			})
 			.when('/sandbox', {
 				templateUrl: 'views/sandbox.html',
 				controller: 'SandboxCtrl'
@@ -42,7 +38,7 @@ angular.module('sheetApp', [
 			return {
 				'responseError': function (rejection) {
 					// treat all errors as 401 for now
-					$location.path('/login');
+					$location.path('#/');
 					return $q.reject(rejection);
 				}
 			};
@@ -53,7 +49,7 @@ angular.module('sheetApp', [
 		$httpProvider.interceptors.push(inci);
 	})
 	.factory('user', function ($cookieStore) {
-		return $cookieStore.get('sheetuser') || {};
+		return { id: 'nice meme' };
 	})
 	.value('cache', {})
 	.filter('range', function() {

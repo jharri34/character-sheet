@@ -8,11 +8,11 @@
   },
   "main": "server/web.js",
   "dependencies": {
+    "electron": "^1.7.10",
     "express": "^3.4.8",
     "gridfs-stream": "~0.4.1",
     "logfmt": "~0.21.0",
     "monk": "^3.1.2",
-    "passport": "~0.2.0",
     "passport-github": "~0.1.5",
     "passport-google-oauth": "~0.2.0",
     "underscore": "~1.6.0"
