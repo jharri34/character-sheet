@@ -663,7 +663,7 @@ h1 span a.expand-collapse.collapsed { background: url(../images/icon-plus.png); 
 }
 
 .icon-share {
-	background-image: url(../images/icon-share.svg);
+	background-image: url(../images/icon-head.svg);
 	background-size: 30px;
 	background-repeat: no-repeat;
 	padding-left: 40px;
