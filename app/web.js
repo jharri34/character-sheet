@@ -3,13 +3,10 @@ module.exports = () => {
 	var logfmt = require('logfmt');
 	var _ = require('underscore');
 	var app = express();
+	var fs = require('fs');
 
 	var host = process.env.HOST,
-		appFolder = process.env.APP_FOLDER,
-		GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID,
-		GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET,
-		GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID,
-		GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
+		appFolder = process.env.APP_FOLDER;
 
 	var db = require('monk')('localhost/mydb');
 
@@ -23,10 +20,32 @@ module.exports = () => {
 	app.use(express.methodOverride());
 	app.use(express.session({ secret: 'Sho0bd0obe3do0w4h' }));
 
-	app.param('collectionName', function (req, res, next, collectionName) {
-		req.collection = db.get(collectionName);
-		return next();
-	});
+	// --- Character storage ---
+
+	function save() {
+		fs.writeFile("characters/characters.json", JSON.stringify(characters), function(err) {
+			if (err) {
+				console.log(err);				
+				return;
+			}
+			console.log("Character file saved!");
+		});
+	}
+
+	function load() {
+		fs.readFile("characters/characters.json", function(err, data) {
+			if (err) {
+				console.log(err);
+				return;
+			}
+			characters = JSON.parse(data);
+			console.log("Character file loaded!");
+		});
+	}
+
+	// store the characters
+	var characters = {};
+	load();
 
 	// --- API Routes ---
 
@@ -36,62 +55,38 @@ module.exports = () => {
 		res.send('This is the API service.');
 	});
 
-	app.get(apiBase + '/:collectionName', function (req, res, next) {
-		var q = JSON.parse(req.query.q.replace(/@\$/g, '$')),
-			f = JSON.parse(req.query.f);
-		req.collection.find(q, f).then(function (results) {
-			// , { limit: 50, sort: [['_id', -1]] }
-			res.send(results);
-		}).catch(function (err) {
-			return next(err);
-		});
+	app.get(apiBase + '/characters', function (req, res, next) {
+		console.log("get all response = " + JSON.stringify(_.values(characters)));
+		res.send(_.values(characters));
 	});
 
-	app.post(apiBase + '/:collectionName', function (req, res, next) {
-		// require a user object in the body minimally
-		if (req.body.user && req.body.user.id) {
-			req.collection.insert(req.body).then(function (doc) {
-				res.status(201).send(doc);
-			}).catch(function (err) {
-				return next(err);
-			});
-		} else {
-			res.send(401);
+	app.post(apiBase + '/characters', function (req, res, next) {
+		var id = 1;
+		while (id in characters) {
+			id++;
 		}
+		req.body._id = id;
+		characters[id] = req.body;
+		console.log("post response = " + JSON.stringify(req.body));		
+		res.status(201).send(req.body);
+		save();
 	});
 
-	app.get(apiBase + '/:collectionName/:id', function (req, res, next) { // this call doesn't require auth to allow for statblock sharing
-		req.collection.findOne({ _id: req.params.id }).then(function (doc) {
-			res.send(doc);
-		}).catch(function (err) {
-			return next(err);
-		});
+	app.get(apiBase + '/characters/:id', function (req, res, next) { // this call doesn't require auth to allow for statblock sharing
+		console.log("get response = " + JSON.stringify(characters[req.params.id]));					
+		res.send(characters[req.params.id]);
 	});
 
-	app.put(apiBase + '/:collectionName/:id', function (req, res, next) {
-		if (req.body.user && req.body.user.id) {
-			req.collection.findOneAndUpdate({ _id: req.params.id }, { $set: req.body }).then(function (updatedDoc) {
-				res.send(updatedDoc);
-			}).catch(function (err) {
-				return next(err);
-			});
-		} else {
-			res.send(401);
-		}
-	});
-
-	app.del('/collections/:collectionName/:id', function(req, res, next) {
-		req.collection.findOneAndDelete({ _id: req.params.id }).then(function () {
-			res.send(204); // (No Content)
-		}).catch(function (err) {
-			return next(err);
-		});
+	app.put(apiBase + '/characters/:id', function (req, res, next) {
+		console.log("new keys = " + JSON.stringify(_.keys(req.body)));
+		characters[req.params.id] = Object.assign({}, characters[req.params.id], req.body)
+		console.log("put response = " + JSON.stringify(characters[req.params.id]));
+		res.send(characters[req.params.id]);
+		save();
 	});
 
 	// --- App Routes ---
 
-	// app.use('/pathfinder_dev', express.static('app/'));
-	// app.use('/pathfinder', express.static('dist/'));
 	app.use('/', express.static(__dirname + '/'));
 
 	// --- Server Listening ---

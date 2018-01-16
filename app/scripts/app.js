@@ -39,6 +39,7 @@ angular.module('sheetApp', [
 				'responseError': function (rejection) {
 					// treat all errors as 401 for now
 					$location.path('#/');
+					console.log(rejection)
 					return $q.reject(rejection);
 				}
 			};

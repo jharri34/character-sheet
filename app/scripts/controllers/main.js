@@ -13,11 +13,11 @@ angular.module('sheetApp')
 			f: { 'user': 1, 'name': 1, 'modified': 1, 'race': 1, 'level': 1, 'status': 1 }
 		}, function() {
 			angular.forEach($scope.characters, function (character) {
-				character.id = character._id;
+				character.id = character.id;
 				if (!character.level) {
 					character.level = 'Unspecified class/level';
 				}
-				character.resourceUrl = '/api/v1/characters/' + character._id;
+				character.resourceUrl = '/api/v1/characters/' + character.id;
 			});
 		});
 
