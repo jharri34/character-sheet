@@ -115,14 +115,6 @@ angular.module('sheetApp', [
 				});
 		};
 
-		$rootScope.$on('$routeChangeStart', function () {
-			if (!routeClean($location.url()) && !user.id) {
-				cache.redirect = $location.url();
-				// redirect to login
-				$location.path('/login');
-			}
-		});
-
 		$rootScope.$on('$routeChangeSuccess', function(ev, data) {
 			if (data.$$route && data.$$route.controller) {
 				$rootScope.controllerName = data.$$route.controller;

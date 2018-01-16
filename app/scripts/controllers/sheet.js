@@ -11,10 +11,6 @@ angular.module('sheetApp')
 		// Loading
 		//
 
-		if (!user.id) {
-			$location.path('/login');
-		}
-
 		if ( $routeParams.characterId ) {
 			$scope.character = Character.getById($routeParams.characterId);
 		} else {
