@@ -50,7 +50,7 @@ angular.module('sheetApp', [
 		$httpProvider.interceptors.push(inci);
 	})
 	.factory('user', function ($cookieStore) {
-		return { id: 'nice meme' };
+		return { id: 1 };
 	})
 	.value('cache', {})
 	.filter('range', function() {

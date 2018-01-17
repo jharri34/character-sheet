@@ -1,27 +1,57 @@
 {
   "name": "sheet",
   "version": "1.0.0",
-  "description": "A cloud based character sheet for the Pathfinder Roleplaying Game.",
-  "main": "main.js",
-  "directories": {
-    "test": "test"
-  },
+  "description": "A native desktop character sheet for the Pathfinder Roleplaying Game.",
+  "main": "app/main.js",
   "scripts": {
     "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "pack": "electron-builder --dir",
+    "dist": "build"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tylerbonnell/Sheet.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/tylerbonnell/Sheet/issues"
   },
   "homepage": "https://github.com/tylerbonnell/Sheet#readme",
+  "build": {
+    "appId": "pizza.ty.sheet",
+    "mac": {
+      "category": "public.app-category.games"
+    },
+    "dmg": {
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    },
+    "win": {
+      "target": "NSIS",
+      "icon": "build/icon.ico"
+    }
+  },
   "dependencies": {},
   "devDependencies": {
-    "electron": "1.7.10"
+    "electron": "1.7.10",
+    "electron-builder": "^19.54.0"
   }
 }
