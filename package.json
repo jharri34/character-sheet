@@ -19,6 +19,10 @@
   "bugs": {
     "url": "https://github.com/tylerbonnell/Sheet/issues"
   },
+  "files": [
+    "**/*", 
+    "build/icon.*"
+  ],
   "homepage": "https://github.com/tylerbonnell/Sheet#readme",
   "build": {
     "appId": "pizza.ty.sheet",
