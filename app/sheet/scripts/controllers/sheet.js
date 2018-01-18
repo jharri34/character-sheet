@@ -1,8 +1,7 @@
 'use strict';
 
 angular.module('sheetApp')
-	.controller('SheetCtrl', function ($scope, $rootScope, $routeParams, $timeout, $http, $location, ngDialog, user, Character) {
-		$scope.user = user;
+	.controller('SheetCtrl', function ($scope, $rootScope, $routeParams, $timeout, $http, $location, ngDialog, Character) {
 		$scope.saveText = '';
 
 		var saveInProgress = false;
@@ -15,7 +14,6 @@ angular.module('sheetApp')
 			$scope.character = Character.getById($routeParams.characterId);
 		} else {
 			$scope.character = new Character();
-			$scope.character.user = user;
 			$scope.character.spells = [];
 			for(var l = 0; l <= 9; l++) {
 				$scope.character.spells[l] = {};

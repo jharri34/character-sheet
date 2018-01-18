@@ -9,6 +9,7 @@ const BrowserWindow = electron.BrowserWindow
 let mainWindow
 
 global.port = 5666;
+global.appdata = app.getPath('userData');
 
 app.on('ready', function() {
   app.server = require(path.join(__dirname, '/sheet/web.js'))();

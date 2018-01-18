@@ -1,7 +1,6 @@
 angular.module('sheetApp')
-	.controller('MainCtrl', function ($scope, user, Character) {
+	.controller('MainCtrl', function ($scope, Character) {
 		'use strict';
-		$scope.user = user;
 
 		$scope.filterActive = function (c) {
 			return c.status !== 'archived' && c.status !== 'deleted';
@@ -9,8 +8,8 @@ angular.module('sheetApp')
 
 		// get user's characters
 		$scope.characters = Character.query({
-			q: { 'user.id': user.id, 'status': { '@$ne': 'deleted' } },
-			f: { 'user': 1, 'name': 1, 'modified': 1, 'race': 1, 'level': 1, 'status': 1 }
+			q: { 'status': { '@$ne': 'deleted' } },
+			f: { 'name': 1, 'modified': 1, 'race': 1, 'level': 1, 'status': 1 }
 		}, function() {
 			angular.forEach($scope.characters, function (character) {
 				character.id = character.id;

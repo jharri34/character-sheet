@@ -1,9 +1,8 @@
 'use strict';
 
 angular.module('sheetApp')
-	.controller('SandboxCtrl', function ($scope, $http, user, $fileUploader) {
+	.controller('SandboxCtrl', function ($scope, $http, $fileUploader) {
 		$scope.thing = 'Stuff';
-		$scope.user = user;
 
 		// Creates an uploader
 		var uploader = $scope.uploader = $fileUploader.create({

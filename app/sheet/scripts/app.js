@@ -49,9 +49,6 @@ angular.module('sheetApp', [
 
 		$httpProvider.interceptors.push(inci);
 	})
-	.factory('user', function ($cookieStore) {
-		return { id: 1 };
-	})
 	.value('cache', {})
 	.filter('range', function() {
 		return function (input, total) {
@@ -104,18 +101,7 @@ angular.module('sheetApp', [
 			return name.replace(/(\d)$/, '').replace(/([a-z])([A-Z])/g, '$1 $2');
 		};
 	})
-	.run(function ($rootScope, $location, user, cache) {
-		// http://arthur.gonigberg.com/2013/06/29/angularjs-role-based-auth/
-		var routesThatDontRequireAuth = ['/login', '/logout', '/statblock', '/sandbox'];
-
-		// check if current location matches route
-		var routeClean = function (route) {
-			return _.find(routesThatDontRequireAuth,
-				function (noAuthRoute) {
-					return route.match(noAuthRoute);
-				});
-		};
-
+	.run(function ($rootScope, $location, cache) {
 		$rootScope.$on('$routeChangeSuccess', function(ev, data) {
 			if (data.$$route && data.$$route.controller) {
 				$rootScope.controllerName = data.$$route.controller;

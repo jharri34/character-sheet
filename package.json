@@ -1,5 +1,6 @@
 {
-  "name": "sheet",
+  "name": "pfsheets",
+  "productName": "Pathfinder Character Sheets",
   "version": "1.0.0",
   "description": "A native desktop character sheet for the Pathfinder Roleplaying Game.",
   "main": "app/main.js",

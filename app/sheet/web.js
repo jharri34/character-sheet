@@ -23,23 +23,29 @@ module.exports = () => {
 	// --- Character storage ---
 
 	function save() {
-		fs.writeFile("characters/characters.json", JSON.stringify(characters), function(err) {
+		console.log();
+		if (!fs.existsSync(global.appdata)){
+			fs.mkdirSync(global.appdata);
+		}
+		var file = global.appdata + '/characters.json';
+		fs.writeFile(file, JSON.stringify(characters), function(err) {
 			if (err) {
 				console.log(err);				
 				return;
 			}
-			console.log("Character file saved!");
+			console.log("Character file saved to " + file);
 		});
 	}
 
 	function load() {
-		fs.readFile("characters/characters.json", function(err, data) {
+		var file = global.appdata + '/characters.json';		
+		fs.readFile(file, function(err, data) {
 			if (err) {
 				console.log(err);
 				return;
 			}
 			characters = JSON.parse(data);
-			console.log("Character file loaded!");
+			console.log("Character file loaded from " + file);
 		});
 	}
 
