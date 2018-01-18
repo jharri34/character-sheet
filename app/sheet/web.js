@@ -97,7 +97,7 @@ module.exports = () => {
 
 	// --- Server Listening ---
 
-	app.listen(port, function () {
+	app.listen(port, 'localhost', function () {
 		console.log('Listening on ' + global.port);
 	});
 }
